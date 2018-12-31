@@ -6,10 +6,12 @@
     "game-engine-js": "^1.1.0"
   },
   "devDependencies": {
+    "gh-pages": "^2.0.1",
     "live-server": "^1.2.1"
   },
   "scripts": {
-    "start": "live-server"
+    "start": "live-server",
+    "deploy": "gh-pages -d ."
   },
   "repository": {
     "type": "git",
