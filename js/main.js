@@ -1,11 +1,14 @@
-const ge = new GameEngine({ ratio: 9 / 16 }),
-      input = new Input(keyUpdate),
+const ge = new GameEngine({ ratio: 2 / 3 }),
+      input = new Input(),
       res = new Resources('assets', []);
 
-function keyUpdate(event) {
+let playfield = new Playfield(ge.canvas.width, ge.canvas.height, generatePiece);
+ge.addUpdateComponent(playfield.update, 'playfieldUpdate');
+
+function generatePiece() {
 
 }
 
 res.onload = () => {
-  console.log('loaded');
+  ge.start();
 }
