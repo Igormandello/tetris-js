@@ -7,8 +7,8 @@ class Tetriminoes {
   constructor(resources) {
     this._r = resources;
 
-    this._pieces = {
-      I: {
+    this._pieces = [
+      { //I
         piece: [
           [
             [0, 0, 0, 0],
@@ -24,8 +24,7 @@ class Tetriminoes {
         ],
         pieceScheme: 0,
         colorScheme: 0
-      },
-      O: {
+      }, { //O
         piece: [
           [
             [1, 1],
@@ -34,8 +33,7 @@ class Tetriminoes {
         ],
         pieceScheme: 0,
         colorScheme: 0
-      },
-      J: {
+      }, { //J
         piece: [
           [
             [0, 0, 0],
@@ -57,8 +55,80 @@ class Tetriminoes {
         ],
         pieceScheme: 1,
         colorScheme: 0
+      }, { //L
+        piece: [
+          [
+            [0, 0, 0],
+            [1, 1, 1],
+            [1, 0, 0]
+          ], [
+            [1, 1, 0],
+            [0, 1, 0],
+            [0, 1, 0]
+          ], [
+            [0, 0, 1],
+            [1, 1, 1],
+            [0, 0, 0]
+          ], [
+            [0, 1, 0],
+            [0, 1, 0],
+            [0, 1, 1]
+          ]
+        ],
+        pieceScheme: 1,
+        colorScheme: 1
+      }, { //S
+        piece: [
+          [
+            [0, 0, 0],
+            [0, 1, 1],
+            [1, 1, 0]
+          ], [
+            [0, 1, 0],
+            [0, 1, 1],
+            [0, 0, 1]
+          ]
+        ],
+        pieceScheme: 1,
+        colorScheme: 0
+      }, { //T
+        piece: [
+          [
+            [0, 0, 0],
+            [1, 1, 1],
+            [0, 1, 0]
+          ], [
+            [0, 1, 0],
+            [1, 1, 0],
+            [0, 1, 0]
+          ], [
+            [0, 1, 0],
+            [1, 1, 1],
+            [0, 0, 0]
+          ], [
+            [0, 1, 0],
+            [0, 1, 1],
+            [0, 1, 0]
+          ]
+        ],
+        pieceScheme: 0,
+        colorScheme: 0
+      }, { //Z
+        piece: [
+          [
+            [0, 0, 0],
+            [1, 1, 0],
+            [0, 1, 1]
+          ], [
+            [0, 0, 1],
+            [0, 1, 1],
+            [0, 1, 0]
+          ]
+        ],
+        pieceScheme: 0,
+        colorScheme: 1
       }
-    };
+    ];
 
     let blue = '#0058f8',
         lightBlue = '#3cbcfc',
@@ -102,8 +172,7 @@ class Tetriminoes {
   }
 
   generateTetrimino() {
-    let pieces = Object.keys(this._pieces);
-    return this._pieces[pieces[Math.floor(Math.random() * pieces.length)]];
+    return this._pieces[Math.floor(Math.random() * this._pieces.length)];
   }
 
   drawCell(ctx, x, y, size, pieceScheme, colorScheme, level) {

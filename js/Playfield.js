@@ -14,18 +14,40 @@ class Playfield {
     this._w = this._cols * (this._cellSize + 2 * this._padding);
     this._h = this._rows * (this._cellSize + 2 * this._padding);
 
-    this._tetrominoes = new Tetriminoes(r);
+    this._tetriminoes = new Tetriminoes(r);
     this._field = [];
-    for (let y = 0; y < this._rows; y++) {
-      let row = [];
-      for (let x = 0; x < this._cols; x++)
-        if (Math.random() * y > 5)
-          row.push(this._tetrominoes.generateTetrimino());
-        else
-          row.push(-1);
+    for (let y = 0; y < this._rows; y ++)
+      this._field.push([]);
 
-      this._field.push(row);
+    let currentTetrimino = 0;
+    for (let y = 0; y < this._rows; y += 5) {
+      for (let x = 0; x < this._cols; x += 5) {
+        let t = this._tetriminoes._pieces[currentTetrimino];
+        if (!t)
+          for (let ty = 0; ty < 5; ty++)
+            for (let tx = 0; tx < 5; tx++)
+              this._field[y + ty].push(-1);
+        else
+          for (let ty = 0; ty < 5; ty++) {
+            if (!t.piece[0][ty])
+              for (let tx = 0; tx < 5; tx++)
+                this._field[y + ty].push(-1);
+            else
+              for (let tx = 0; tx < 5; tx++)
+                if (t.piece[0][ty][tx])
+                  this._field[y + ty].push({
+                    pieceScheme: t.pieceScheme,
+                    colorScheme: t.colorScheme
+                  });
+                else
+                  this._field[y + ty].push(-1);
+        }
+
+        currentTetrimino++;
+      }
     }
+
+    console.log(this._field);
   }
 
   get update() {
@@ -42,7 +64,7 @@ class Playfield {
     for (let y = 0; y < this._rows; y++)
       for (let x = 0; x < this._cols; x++)
         if (this._field[y][x] !== -1) {
-          this._tetrominoes.drawCell(ctx, 11 + x * (2 * this._padding + this._cellSize), 11 + y * (2 * this._padding + this._cellSize), this._cellSize, this._field[y][x].pieceScheme, this._field[y][x].colorScheme, level);
+          this._tetriminoes.drawCell(ctx, 11 + x * (2 * this._padding + this._cellSize), 11 + y * (2 * this._padding + this._cellSize), this._cellSize, this._field[y][x].pieceScheme, this._field[y][x].colorScheme, level);
         }
   }
 }
