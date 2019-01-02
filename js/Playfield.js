@@ -1,8 +1,7 @@
 class Playfield {
-  constructor(availableWidth, availableHeight, requestPiece) {
+  constructor(availableWidth, availableHeight) {
     this._rows = 20;
     this._cols = 10;
-    this._requestPiece = requestPiece;
 
     availableWidth -= this._cols * 2 + 20;
     availableHeight -= this._rows * 2 + 20;
