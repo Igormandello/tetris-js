@@ -1,18 +1,20 @@
-const ge = new GameEngine({ ratio: 2 / 3 }),
-      input = new Input(),
-      res = new Resources('assets', piecesImages);
-
 var level = Math.floor(Math.random() * 10) + 1;
 
-let playfield = new Playfield(ge.canvas.width, ge.canvas.height, res);
-ge.addUpdateComponent(playfield.update, 'playfieldUpdate');
+(() => {
+  const ge = new GameEngine({ ratio: 2 / 3 }),
+        input = new Input(),
+        res = new Resources('assets', piecesImages);
 
-let rotation = 0;
-ge.addAnimationComponent(() => {
-  playfield.showdownPieces(++rotation);
-}, 60, 'showdownRotation');
+  let playfield = new Playfield(ge.canvas.width, ge.canvas.height, res);
+  ge.addUpdateComponent(playfield.update, 'playfieldUpdate');
 
-res.onload = () => {
-  ge.start();
-  playfield.showdownPieces(0);
-}
+  let rotation = 0;
+  ge.addAnimationComponent(() => {
+    playfield.showdownPieces(++rotation);
+  }, 60, 'showdownRotation');
+
+  res.onload = () => {
+    ge.start();
+    playfield.showdownPieces(0);
+  }
+})();
