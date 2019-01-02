@@ -61,7 +61,7 @@ class Tetriminoes {
     };
 
     let blue = '#0058f8',
-        lightBlue = '#3cbcfc'
+        lightBlue = '#3cbcfc',
         green = '#00a800',
         lightGreen = '#58d854',
         lime = '#b8f818',
@@ -101,8 +101,13 @@ class Tetriminoes {
     ];
   }
 
+  generateTetrimino() {
+    let pieces = Object.keys(this._pieces);
+    return this._pieces[pieces[Math.floor(Math.random() * pieces.length)]];
+  }
+
   drawCell(ctx, x, y, size, pieceScheme, colorScheme, level) {
-    let color = this._levelColors[(level % 10) - 1][colorScheme];
+    let color = this._levelColors[(level - 1) % 10][colorScheme];
 
     ctx.fillStyle = color;
     ctx.fillRect(x, y, size, size);
