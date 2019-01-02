@@ -17,41 +17,37 @@ class Playfield {
     this._tetriminoes = new Tetriminoes(r);
     this._field = [];
     for (let y = 0; y < this._rows; y ++)
-      this._field.push([]);
+      this._field.push(Array(this._cols).fill(-1));
+  }
+
+  get update() {
+    return this._update.bind(this);
+  }
+
+  showdownPieces(rotation) {
+    this._resetField();
 
     let currentTetrimino = 0;
     for (let y = 0; y < this._rows; y += 5) {
       for (let x = 0; x < this._cols; x += 5) {
         let t = this._tetriminoes._pieces[currentTetrimino];
-        if (!t)
-          for (let ty = 0; ty < 5; ty++)
-            for (let tx = 0; tx < 5; tx++)
-              this._field[y + ty].push(-1);
-        else
+        if (t) {
+          let piece = t.piece[rotation % t.piece.length];
+
           for (let ty = 0; ty < 5; ty++) {
-            if (!t.piece[0][ty])
+            if (piece[ty])
               for (let tx = 0; tx < 5; tx++)
-                this._field[y + ty].push(-1);
-            else
-              for (let tx = 0; tx < 5; tx++)
-                if (t.piece[0][ty][tx])
-                  this._field[y + ty].push({
+                if (piece[ty][tx])
+                  this._field[y + ty][x + tx] = {
                     pieceScheme: t.pieceScheme,
                     colorScheme: t.colorScheme
-                  });
-                else
-                  this._field[y + ty].push(-1);
+                  };
+          }
         }
 
         currentTetrimino++;
       }
     }
-
-    console.log(this._field);
-  }
-
-  get update() {
-    return this._update.bind(this);
   }
 
   _update(ctx) {
@@ -66,5 +62,10 @@ class Playfield {
         if (this._field[y][x] !== -1) {
           this._tetriminoes.drawCell(ctx, 11 + x * (2 * this._padding + this._cellSize), 11 + y * (2 * this._padding + this._cellSize), this._cellSize, this._field[y][x].pieceScheme, this._field[y][x].colorScheme, level);
         }
+  }
+
+  _resetField() {
+    for (let y = 0; y < this._rows; y ++)
+      this._field[y].fill(-1);
   }
 }
