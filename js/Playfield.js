@@ -18,6 +18,8 @@ class Playfield {
     this._field = [];
     for (let y = 0; y < this._rows; y ++)
       this._field.push(Array(this._cols).fill(-1));
+
+    this._levelController = new LevelController();
   }
 
   get update() {
@@ -60,7 +62,15 @@ class Playfield {
     for (let y = 0; y < this._rows; y++)
       for (let x = 0; x < this._cols; x++)
         if (this._field[y][x] !== -1) {
-          this._tetriminoes.drawCell(ctx, 11 + x * (2 * this._padding + this._cellSize), 11 + y * (2 * this._padding + this._cellSize), this._cellSize, this._field[y][x].pieceScheme, this._field[y][x].colorScheme, level);
+          this._tetriminoes.drawCell(
+            ctx,
+            11 + x * (2 * this._padding + this._cellSize),
+            11 + y * (2 * this._padding + this._cellSize),
+            this._cellSize,
+            this._field[y][x].pieceScheme,
+            this._field[y][x].colorScheme,
+            this._levelController.level
+          );
         }
   }
 

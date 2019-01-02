@@ -1,5 +1,3 @@
-var level = Math.floor(Math.random() * 10) + 1;
-
 (() => {
   const ge = new GameEngine({ ratio: 2 / 3 }),
         input = new Input(),
