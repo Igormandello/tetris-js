@@ -15,12 +15,25 @@
   function handleKey(evt) {
     switch(evt.keyCode) {
       case Keys.LEFT.keyCode:
+        if (evt.type === 'keydown')
+          playfield.moveLeft();
+        else
+          playfield.releaseLeft();
         break;
 
       case Keys.RIGHT.keyCode:
+        if (evt.type === 'keydown')
+          playfield.moveRight();
+        else
+          playfield.releaseRight();
         break;
 
       case Keys.UP.keyCode:
+        break;
+
+      case Keys.DOWN.keyCode:
+        if (evt.type === 'keydown')
+          playfield.speedDrop();
         break;
     }
   }

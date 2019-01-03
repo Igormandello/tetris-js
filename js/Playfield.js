@@ -64,6 +64,38 @@ class Playfield {
     }
   }
 
+  moveLeft() {
+    for (let x = 0; x < this._dropping.size; x++)
+      for (let y = 0; y < this._dropping.size; y++)
+        if (this._dropping.piece.piece[this._dropping.rotation][y][x])
+          if (this._dropping.x + x == 0 || this._field[y + this._dropping.y][x + this._dropping.x - 1] !== -1)
+            return;
+
+    this._dropping.x--;
+  }
+
+  releaseLeft() {
+
+  }
+
+  moveRight() {
+    for (let x = this._dropping.size - 1; x >= 0; x--)
+      for (let y = 0; y < this._dropping.size; y++)
+        if (this._dropping.piece.piece[this._dropping.rotation][y][x])
+          if (this._dropping.x + x == this._cols - 1 || this._field[y + this._dropping.y][x + this._dropping.x + 1] !== -1)
+            return;
+
+    this._dropping.x++;
+  }
+
+  releaseRight() {
+
+  }
+
+  speedDrop() {
+    this._dropPiece();
+  }
+
   _dropPiece() {
     for (let y = this._dropping.size - 1; y >= 0; y--)
       for (let x = 0; x < this._dropping.size; x++) {
@@ -73,8 +105,7 @@ class Playfield {
         }
       }
 
-    if (this._dropping.y < this._rows - 1)
-      this._dropping.y++;
+    this._dropping.y++;
   }
 
   _lockPiece() {
