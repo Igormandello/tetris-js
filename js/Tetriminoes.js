@@ -27,8 +27,10 @@ class Tetriminoes {
       }, { //O
         piece: [
           [
-            [1, 1],
-            [1, 1]
+            [0, 0, 0, 0],
+            [0, 1, 1, 0],
+            [0, 1, 1, 0],
+            [0, 0, 0, 0]
           ]
         ],
         pieceScheme: 0,
@@ -125,7 +127,7 @@ class Tetriminoes {
             [0, 1, 0]
           ]
         ],
-        pieceScheme: 0,
+        pieceScheme: 1,
         colorScheme: 1
       }
     ];
