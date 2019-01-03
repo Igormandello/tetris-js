@@ -466,9 +466,9 @@ fsevents@^1.2.2:
     nan "^2.9.2"
     node-pre-gyp "^0.10.0"
 
-game-engine-js@^1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/game-engine-js/-/game-engine-js-1.3.1.tgz#5207d0dcf4fa913d3bb5c031be05265ba0d8feab"
+game-engine-js@^1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/game-engine-js/-/game-engine-js-1.3.2.tgz#13a022bb1b1c318b6507551e788fb39bb87e0544"
 
 gauge@~2.7.3:
   version "2.7.4"

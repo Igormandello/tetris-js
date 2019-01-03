@@ -1,5 +1,5 @@
 class Playfield {
-  constructor(availableWidth, availableHeight, r) {
+  constructor(availableWidth, availableHeight, gameEngine, r) {
     this._rows = 20;
     this._cols = 10;
 
@@ -20,6 +20,18 @@ class Playfield {
       this._field.push(Array(this._cols).fill(-1));
 
     this._levelController = new LevelController();
+
+    this._ge = gameEngine;
+    this._ge.addAnimationComponent(this._dropPiece.bind(this), 48, 'dropPiece');
+
+    let tetrimino = this._tetriminoes.generateTetrimino();
+    this._dropping = {
+      x: Math.floor((this._cols - tetrimino.piece[0][0].length) / 2),
+      y: 0,
+      piece: tetrimino,
+      size: tetrimino.piece[0][0].length,
+      rotation: 0
+    }
   }
 
   get update() {
@@ -52,6 +64,38 @@ class Playfield {
     }
   }
 
+  _dropPiece() {
+    for (let y = this._dropping.size - 1; y >= 0; y--)
+      for (let x = 0; x < this._dropping.size; x++) {
+        if (this._dropping.piece.piece[this._dropping.rotation][y][x]) {
+          if (this._dropping.y + y == this._rows - 1 || this._field[y + this._dropping.y + 1][x + this._dropping.x] !== -1)
+            this._lockPiece(this._dropping);
+        }
+      }
+
+    if (this._dropping.y < this._rows - 1)
+      this._dropping.y++;
+  }
+
+  _lockPiece() {
+    for (let y = 0; y < this._dropping.size; y++)
+      for (let x = 0; x < this._dropping.size; x++)
+        if (this._dropping.piece.piece[this._dropping.rotation][y][x])
+          this._field[y + this._dropping.y][x + this._dropping.x] = {
+            colorScheme: this._dropping.piece.colorScheme,
+            pieceScheme: this._dropping.piece.pieceScheme
+          };
+
+    let tetrimino = this._tetriminoes.generateTetrimino();
+    this._dropping = {
+      x: Math.floor((this._cols - tetrimino.piece[0][0].length) / 2),
+      y: 0,
+      piece: tetrimino,
+      size: tetrimino.piece[0][0].length,
+      rotation: 0
+    };
+  }
+
   _update(ctx) {
     ctx.fillStyle = '#56A';
     ctx.fillRect(0, 0, this._w + 20, this._h + 20);
@@ -72,6 +116,19 @@ class Playfield {
             this._levelController.level
           );
         }
+
+    for (let y = 0; y < this._dropping.size; y++)
+        for (let x = 0; x < this._dropping.size; x++)
+          if (this._dropping.piece.piece[this._dropping.rotation][y][x])
+            this._tetriminoes.drawCell(
+              ctx,
+              11 + (x + this._dropping.x) * (2 * this._padding + this._cellSize),
+              11 + (y + this._dropping.y) * (2 * this._padding + this._cellSize),
+              this._cellSize,
+              this._dropping.piece.pieceScheme,
+              this._dropping.piece.colorScheme,
+              this._levelController.level
+            );
   }
 
   _resetField() {
