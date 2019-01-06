@@ -109,13 +109,62 @@ class Playfield {
   }
 
   _lockPiece() {
+    let modifiedYs = new Set();
     for (let y = 0; y < this._dropping.size; y++)
       for (let x = 0; x < this._dropping.size; x++)
-        if (this._dropping.piece.piece[this._dropping.rotation][y][x])
+        if (this._dropping.piece.piece[this._dropping.rotation][y][x]) {
           this._field[y + this._dropping.y][x + this._dropping.x] = {
             colorScheme: this._dropping.piece.colorScheme,
             pieceScheme: this._dropping.piece.pieceScheme
           };
+
+          modifiedYs.add(y + this._dropping.y);
+        }
+
+    let toRemove = [];
+    let linesFilled = 0
+    for (let y of modifiedYs) {
+      let lineFilled = true;
+      for (let x = 0; x < this._cols; x++)
+        if (this._field[y][x] === -1) {
+          lineFilled = false;
+          break;
+        }
+
+      if (lineFilled) {
+        linesFilled++;
+        toRemove.push(y);
+
+        if (linesFilled === 4)
+          break;
+      }
+    }
+
+    for (let y of toRemove) {
+      this._field.splice(y, 1);
+      this._field.unshift(Array(this._cols).fill(-1));
+    }
+
+    switch (linesFilled) {
+      case 0:
+        break;
+
+      case 1:
+        this._levelController.single();
+        break;
+
+      case 2:
+        this._levelController.double();
+        break;
+
+      case 3:
+        this._levelController.triple();
+        break;
+    
+      case 4:
+        this._levelController.tetris();
+        break;
+    }
 
     let tetrimino = this._tetriminoes.generateTetrimino();
     this._dropping = {
